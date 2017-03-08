@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 		App\User::create([
-			'name' => 'marijn',
-			'email' => 'marijn.de.vries@nhl.nl',
-			'password' => bcrypt('marijn'),
+			'name' => 'mtnw',
+			'email' => 'mtnw@mtnw.nl',
+			'password' => bcrypt('nextweb'),
 			'remember_token' => str_random(10),
 		]);
 

@@ -1,224 +1,40 @@
-#Les 4
-We hebben nu een lijstje van producten, maar stel iemand wil een product kopen, wat hebben we nodig?
+<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-"Stel je hebt een winkel, hoe ga je bijhouden wie jou producten koopt?"
+<p align="center">
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+</p>
 
-Maak eerst een migration aan voor de Orders en de Orderlines
+## About Laravel
 
-	php artisan make:model Order --migration
-	php artisan make:model OrderLine --migration
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 
-Zet de volgende code in de de Order migration
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-```php
-$table->increments('id');
-$table->integer('user_id')->unsigned();
-$table->integer('payment_id')->unsigned();
-$table->text('description')->nullable();
-$table->integer('status');
-$table->float('amount')->nullable();
-$table->decimal('lon', 10, 7);
-$table->decimal('lat', 10, 7);
-$table->timestamps();
-```
+Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
 
-En de volgende code in de OrderLine migration
+## Learning Laravel
 
-```php
-$table->increments('id');
-$table->integer('order_id')->unsigned();
-$table->integer('product_id')->unsigned();
-$table->integer('quantity');
-$table->float('amount');
-$table->timestamps();
-```
+Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
 
-	php artisan migrate
+If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
 
-Dikke migration, celebrate the nation.
+## Contributing
 
-Voeg dit toe aan de Order model
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-```php
+## Security Vulnerabilities
 
-namespace App;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-class Order extends Model
-{
-	use Notifiable;
-	
-	protected $fillable = [
-	    'amount', 'status', 'description', 'lat', 'lon', 'user_id', 'payment_id'
-	];
-	
-	public function orderlines()
-	{
-	    return $this->hasMany('App\Orderline');
-	}
-}
-```
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
-En voeg dit toe aan de Orderline Model
+## License
 
-```php
-
-  protected $fillable = [
-  	'product_id', 'order_id', 'quantity', 'amount',
-  ];
-
-  public function order() {
-      return $this->belongsTo('App\Order');
-  }
-```
-
-
-Maak eerst de routes
-
-``` php
-Route::get('/orders/new', 'OrdersController@create');
-Route::post('/orders/new', 'OrdersController@store');
-```
-
-Maak daarna een nieuwe controller een `OrdersController`
-
-	php artisan make:controller OrdersController
-
-Ga nu naar het bestand toe.
-Maak daar een nieuwe methode aan genaamd create.
-
-```php
-use App\Product;
-use App\Order;
-use App\OrderLine;
-
-public function create() {
-  $products = Product::all();
-  return view('orders.create', compact('products'));
-}
-```
-
-Maak vervolgens een mapje aan in `resources/views/` genaamd `orders` met daarin het bestand `create.blade.php`
-
-Zet daar de volgende HTML in:
-
-```html
-@extends('layouts.app')
-@section('content')
-<div class="container">
-<h1>Bestelling plaatsen</h1>
-<form method="POST" name="bestelling">
-    {{ csrf_field() }}
-    <div class="form-group">
-        <label for="product">Product</label>
-		<select name="product" class="form-control">
-			@foreach($products as $product)
-				<option value="{{$product->name}}">{{$product->name}}</option>
-			@endforeach
-		</select>
-    </div>
-    <input type="submit" name="submit" class="btn btn-succes" value="Geef mij bier!">
-</form>
-</div>
-@endsection
-```
-
-Ga nu naar `/order/create` dik formulier!
-
-Maak de nu de store functie in de OrdersController, deze doen we even anders dan de productscontroller om te laten zien, dat het anders kan!
-
-public function store(Request $request)
-{
-
-    $order = Order::create([
-        'user_id' => 1,
-        'payment_id' => 1,
-        'amount' => 1,
-        'status' => 0,
-        'lat' => 53.201233,
-        'lon' => 5.799913,
-    ]);
-
-    $orderline = New OrderLine([
-        'product_id' => $request->product,
-        'quantity' => 1,
-        'amount' => 10.00,
-    ]);
-
-    $order->orderlines()->save($orderline);
-
-    $user = User::first();
-    $user->notify(New OrderCreated($order));
-    return "success";
-
-}
-
-Maak vervolgens een notificatie aan!
-	php artisan make:notification OrderCreated
-	
-
-```php
-namespace App\Notifications;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-class OrderCreated extends Notification
-{
-use Queueable;
-protected $order;
-
-/**
- * Create a new notification instance.
- *
- * @return void
- */
-public function __construct()
-{
-    //
-}
-
-/**
- * Get the notification's delivery channels.
- *
- * @param  mixed  $notifiable
- * @return array
- */
-public function via($notifiable)
-{
-    return ['mail'];
-}
-
-/**
- * Get the mail representation of the notification.
- *
- * @param  mixed  $notifiable
- * @return \Illuminate\Notifications\Messages\MailMessage
- */
-public function toMail($notifiable)
-{
-    return (new MailMessage)
-                ->subject('Een nieuwe order is aangemaakt')
-                ->line('Dikke bestelling!')
-                ->success();
-}
-
-/**
- * Get the array representation of the notification.
- *
- * @param  mixed  $notifiable
- * @return array
- */
-public function toArray($notifiable)
-{
-    return [
-        //
-    ];
-}
-}
-```
-
-Zet dit in je env file
-
-	MAIL_USERNAME=149ad88d0aeb08
-	MAIL_PASSWORD=cead3f26b1dcde
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
