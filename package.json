@@ -14,5 +14,22 @@
     "lodash": "^4.16.2",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3"
-  }
+  },
+  "name": "bierkoerier-vue-edition",
+  "description": "We hebben nu een lijstje van producten, maar stel iemand wil een product kopen, wat hebben we nodig?",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NHLHogeschool/bierkoerier-vue-edition.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NHLHogeschool/bierkoerier-vue-edition/issues"
+  },
+  "homepage": "https://github.com/NHLHogeschool/bierkoerier-vue-edition#readme"
 }
