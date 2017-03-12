@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<main id="app"></main>
+
+@include('layouts.vue')
+
 @endsection

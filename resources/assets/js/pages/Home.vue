@@ -1,12 +1,12 @@
 <template>
     <main>  
       <h1>{{ test }} </h1>
-      <div><hyperlink href="/order" class="btn btn-primary btn-lg">Bestellen</hyperlink></div>
+      <div><router-link to="order" class="btn btn-primary btn-lg">Bestellen</router-link></div>
     </main>
 </template>
 
 <script>
-  import hyperlink from '../components/hyperlink.vue'
+  //import hyperlink from '../components/hyperlink.vue'
 
   export default {
     data() {
@@ -15,7 +15,7 @@
       }
     },
     components: {
-      hyperlink,
+      //hyperlink,
     },
 
     methods: {
