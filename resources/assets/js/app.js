@@ -14,8 +14,34 @@ require('./bootstrap');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+import routes from './routes'
+
+// const routes = {
+// 	'/': 'Home',
+// 	'/list': 'List'
+	
+// }
 
 const app = new Vue({
-    el: '#app'
-});
+    el: '#app',
+    data: {
+        currentRoute: window.location.pathname,
+    },
+    computed: {
+        ViewComponent () {
+            const matchingView = routes[this.currentRoute]
+            return matchingView
+            ? require('./pages/' + matchingView + '.vue')
+            : require('./pages/404.vue');
+        }
+  	},
+  	created() {
+        console.log('vue loaded');
+    },
+    methods: {
 
+    },
+    render (h) { 
+        return h(this.ViewComponent) 
+    }
+});
