@@ -1,9 +1,10 @@
 <template>
     <main>
-      <h1></h1>
-      <li v-for="product in products">
-      {{ product.name }}
-      </li>
+      <h1>Producten</h1>
+      <div class="products" v-for="product in products">
+        <div class="product_name">{{ product.name }}</div>
+        <div class="product_price">{{ product.price }}</div>
+      </div>
       <div><router-link to="order" class="btn btn-primary btn-lg">Bestellen</router-link></div>
     </main>
 </template>

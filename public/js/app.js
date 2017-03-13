@@ -14464,6 +14464,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 //import hyperlink from '../components/hyperlink.vue'
 
@@ -34277,8 +34278,14 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('main', [_c('h1'), _vm._v(" "), _vm._l((_vm.products), function(product) {
-    return _c('li', [_vm._v("\n  " + _vm._s(product.name) + "\n  ")])
+  return _c('main', [_c('h1', [_vm._v("Producten")]), _vm._v(" "), _vm._l((_vm.products), function(product) {
+    return _c('div', {
+      staticClass: "products"
+    }, [_c('div', {
+      staticClass: "product_name"
+    }, [_vm._v(_vm._s(product.name))]), _vm._v(" "), _c('div', {
+      staticClass: "product_price"
+    }, [_vm._v(_vm._s(product.price))])])
   }), _vm._v(" "), _c('div', [_c('router-link', {
     staticClass: "btn btn-primary btn-lg",
     attrs: {
