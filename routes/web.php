@@ -20,13 +20,11 @@ Route::get('/order', function () {
     return view('orders.new');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
-Route::get('/products', 'ProductsController@index')->name('products');
-Route::get('/products/new', 'ProductsController@create')->name('create-product');
-Route::post('products/new', 'ProductsController@store');
-
-Auth::routes();
+Route::group(['prefix' => 'beheer', 'middleware' => 'auth'], function () {
+  Route::get('/home', 'HomeController@index');
+  Route::get('/products', 'ProductsController@index')->name('products');
+  Route::get('/products/new', 'ProductsController@create')->name('create-product');
+  Route::post('products/new', 'ProductsController@store');
+});
 
 Route::get('/home', 'HomeController@index');
