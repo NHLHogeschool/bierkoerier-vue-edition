@@ -3,7 +3,7 @@
        <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-                <router-link to="/" class="bnavbar-brand">BIERKOERIER</router-link> 
+                  <router-link to="/" id="logo" class="bnavbar-brand">BIERKOERIER</router-link>
                 </div>
             </div>
         </nav>
