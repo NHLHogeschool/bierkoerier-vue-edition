@@ -25,6 +25,9 @@ Vue.component('VueFooter', require('./components/VueFooter.vue'));
 
 // Create Vue object in #app
 const app = new Vue({
-  el: '#app',
-  router,
-  });
+   el: '#app',
+   router,
+   data: {
+      cart: []
+   }
+});
