@@ -32,7 +32,6 @@ a#logo {
 }
 #search-engine {
    background-image: url("http://worldunity.me/wp-content/uploads/2016/01/bier.jpg");
-   background-position: -20px;
    background-size: cover;
    background-repeat: no-repeat;
    height: 420px;
@@ -42,7 +41,6 @@ a#logo {
    h1 {
       margin-top: 30px;
       font-weight: bold;
-      color: #fff;
       transition: margin-top .5s ease;
    }
    &.filled {
@@ -53,6 +51,20 @@ a#logo {
    }
 }
 
+.product {
+   &-body {
+      text-align: center;
+      padding: 20px;
+   }
+   &-name {
+      font-weight: bold;
+      font-size: 16px
+   }
+   &-price {
+      margin-bottom: 20px;
+   }
+
+}
 
 
 //Mobile only

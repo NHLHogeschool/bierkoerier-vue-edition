@@ -14421,6 +14421,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     mounted: function mounted() {
@@ -14507,8 +14509,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
-//import hyperlink from '../components/hyperlink.vue'
 
 /* harmony default export */ __webpack_exports__["default"] = {
   data: function data() {
@@ -14560,6 +14563,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     addToCart: function addToCart(product) {
+      console.log(product);
       this.$root.cart.push(product);
     }
   }
@@ -34325,12 +34329,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "sticky"
   }, [_c('div', {
     staticClass: "container"
-  }, [_c('router-link', {
+  }, [(_vm.$root.cart.length !== 0) ? _c('router-link', {
     staticClass: "btn btn-primary btn-lg",
     attrs: {
       "to": "order"
     }
-  }, [_vm._v("Bestellen")])], 1)])
+  }, [_c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.$root.cart.length))]), _vm._v(" Bestellen")]) : _c('button', {
+    staticClass: "btn btn-primary btn-lg",
+    attrs: {
+      "type": "button",
+      "disabled": ""
+    }
+  }, [_c('span', {
+    staticClass: "badge"
+  }, [_vm._v("0")]), _vm._v(" Bestellen")])], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -34386,13 +34400,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "container"
   }, _vm._l((_vm.filteredData), function(product) {
     return _c('div', {
-      staticClass: "product col-md-4"
+      staticClass: "product col-md-3 col-sm-6"
     }, [_c('div', {
-      staticClass: "product_name"
+      staticClass: "product-body thumbnail"
+    }, [_c('div', {
+      staticClass: "product-name caption"
     }, [_vm._v(_vm._s(product.name))]), _vm._v(" "), _c('div', {
-      staticClass: "product_price"
-    }, [_vm._v(_vm._s(product.price))]), _vm._v(" "), _c('button', {
-      staticClass: "btn btn-primary",
+      staticClass: "product-price"
+    }, [_vm._v("€" + _vm._s(product.price))]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-primary product-button",
       attrs: {
         "type": "button"
       },
@@ -34401,7 +34417,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.addToCart(product)
         }
       }
-    }, [_vm._v("+")])])
+    }, [_vm._v("In winkelwagen")])])])
   }))])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('span', {

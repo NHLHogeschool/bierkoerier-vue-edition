@@ -15,10 +15,12 @@
 
       <section id="results">
         <div class="container">
-          <div class="product col-md-4" v-for="product in filteredData">
-            <div class="product_name">{{ product.name }}</div>
-            <div class="product_price">{{ product.price }}</div>
-            <button class="btn btn-primary" type="button" @click="addToCart(product)">+</button>
+          <div class="product col-md-3 col-sm-6" v-for="product in filteredData">
+            <div class="product-body thumbnail">
+               <div class="product-name caption">{{ product.name }}</div>
+               <div class="product-price">&euro;{{ product.price }}</div>
+               <button class="btn btn-primary product-button" type="button" @click="addToCart(product)">In winkelwagen</button>
+            </div>
           </div>
         </div>
       </section>
@@ -27,7 +29,6 @@
 </template>
 
 <script>
-  //import hyperlink from '../components/hyperlink.vue'
 
   export default {
     data() {
@@ -72,8 +73,9 @@
     methods: {
       getProducts() {
         axios.get('/api/products').then(response => this.products = response.data);
-     },
-     addToCart(product) {
+      },
+      addToCart(product) {
+         console.log(product);
          this.$root.cart.push(product);
      }
     }
