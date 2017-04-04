@@ -13544,8 +13544,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["default"]);
 //Create router object from VueRouter
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["default"]({ mode: 'history', routes: __WEBPACK_IMPORTED_MODULE_1__routes_js__["routes"] });
 router.beforeEach(function (to, from, next) {
-  document.title = to.meta.title;
-  next();
+   document.title = to.meta.title;
+   next();
 });
 //Import Header Component
 Vue.component('VueHeader', __webpack_require__(42));
@@ -13553,8 +13553,11 @@ Vue.component('VueFooter', __webpack_require__(41));
 
 // Create Vue object in #app
 var app = new Vue({
-  el: '#app',
-  router: router
+   el: '#app',
+   router: router,
+   data: {
+      cart: []
+   }
 });
 
 /***/ }),
@@ -14418,6 +14421,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     mounted: function mounted() {
@@ -14503,13 +14508,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
-//import hyperlink from '../components/hyperlink.vue'
 
 /* harmony default export */ __webpack_exports__["default"] = {
   data: function data() {
     return {
-      products: [{}]
+      products: [{}],
+      searchString: "",
+      searchResults: []
 
     };
   },
@@ -14524,20 +14533,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     // A computed property that holds only those articles that match the searchString.
     filteredData: function filteredData() {
-      var results_array = this.all,
+      var results_array = this.searchResults,
           searchString = this.searchString;
 
       if (!searchString) {
-        return this.data[this.visibility];
+        return this.products;
       }
 
       searchString = searchString.trim().toLowerCase();
 
       if (searchString) {
-        results_array = this.all.filter(function (row) {
-          return Object.keys(row).some(function (key) {
-            return String(row[key]).toLowerCase().indexOf(searchString) > -1;
-          });
+        results_array = this.products.filter(function (product) {
+          if (product.name.toLowerCase().indexOf(searchString) !== -1) {
+            return product;
+          }
         });
       }
       // Return an array with the filtered data.
@@ -14552,6 +14561,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       axios.get('/api/products').then(function (response) {
         return _this.products = response.data;
       });
+    },
+    addToCart: function addToCart(product) {
+      console.log(product);
+      this.$root.cart.push(product);
     }
   }
 };
@@ -34316,12 +34329,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "sticky"
   }, [_c('div', {
     staticClass: "container"
-  }, [_c('router-link', {
+  }, [(_vm.$root.cart.length !== 0) ? _c('router-link', {
     staticClass: "btn btn-primary btn-lg",
     attrs: {
       "to": "order"
     }
-  }, [_vm._v("Bestellen")])], 1)])
+  }, [_c('span', {
+    staticClass: "badge"
+  }, [_vm._v(_vm._s(_vm.$root.cart.length))]), _vm._v(" Bestellen")]) : _c('button', {
+    staticClass: "btn btn-primary btn-lg",
+    attrs: {
+      "type": "button",
+      "disabled": ""
+    }
+  }, [_c('span', {
+    staticClass: "badge"
+  }, [_vm._v("0")]), _vm._v(" Bestellen")])], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -34336,24 +34359,11 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('main', [_vm._m(0), _vm._v(" "), _c('section', {
-    attrs: {
-      "id": "results"
-    }
-  }, [_c('div', {
-    staticClass: "container"
-  }, _vm._l((_vm.products), function(product) {
-    return _c('div', {
-      staticClass: "products"
-    }, [_c('div', {
-      staticClass: "product_name"
-    }, [_vm._v(_vm._s(product.name))]), _vm._v(" "), _c('div', {
-      staticClass: "product_price"
-    }, [_vm._v(_vm._s(product.price))])])
-  }))])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', {
+  return _c('main', [_c('section', {
     staticClass: "jumbotron",
+    class: {
+      filled: _vm.searchString.length !== 0
+    },
     attrs: {
       "id": "search-engine"
     }
@@ -34362,19 +34372,62 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h1', {}, [_vm._v("Producten")]), _vm._v(" "), _c('div', {
     staticClass: "input-group"
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchString),
+      expression: "searchString"
+    }],
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "placeholder": "Bier!!..."
+      "placeholder": "Zoek bier..."
+    },
+    domProps: {
+      "value": (_vm.searchString)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchString = $event.target.value
+      }
     }
-  }), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._m(0)])])]), _vm._v(" "), _c('section', {
+    attrs: {
+      "id": "results"
+    }
+  }, [_c('div', {
+    staticClass: "container"
+  }, _vm._l((_vm.filteredData), function(product) {
+    return _c('div', {
+      staticClass: "product col-md-3 col-sm-6"
+    }, [_c('div', {
+      staticClass: "product-body thumbnail"
+    }, [_c('div', {
+      staticClass: "product-name caption"
+    }, [_vm._v(_vm._s(product.name))]), _vm._v(" "), _c('div', {
+      staticClass: "product-price"
+    }, [_vm._v("€" + _vm._s(product.price))]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-primary product-button",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.addToCart(product)
+        }
+      }
+    }, [_vm._v("In winkelwagen")])])])
+  }))])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', {
     staticClass: "input-group-btn"
   }, [_c('button', {
     staticClass: "btn btn-primary",
     attrs: {
       "type": "button"
     }
-  }, [_vm._v("Geef!")])])])])])
+  }, [_vm._v("Geef!")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

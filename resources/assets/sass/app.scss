@@ -31,20 +31,40 @@ a#logo {
   }
 }
 #search-engine {
-  background-image: url("http://worldunity.me/wp-content/uploads/2016/01/bier.jpg");
-  background-position: -20px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 420px;
-  width: 100%;
-  text-align: center;
-  h1 {
-    margin-top: 30px;
-    font-weight: bold;
-    color: #fff;
-  }
+   background-image: url("http://worldunity.me/wp-content/uploads/2016/01/bier.jpg");
+   background-size: cover;
+   background-repeat: no-repeat;
+   height: 420px;
+   width: 100%;
+   text-align: center;
+   transition: height .5s ease;
+   h1 {
+      margin-top: 30px;
+      font-weight: bold;
+      transition: margin-top .5s ease;
+   }
+   &.filled {
+      height: 240px;
+      h1 {
+         margin-top: 10px;
+      }
+   }
 }
 
+.product {
+   &-body {
+      text-align: center;
+      padding: 20px;
+   }
+   &-name {
+      font-weight: bold;
+      font-size: 16px
+   }
+   &-price {
+      margin-bottom: 20px;
+   }
+
+}
 
 
 //Mobile only
