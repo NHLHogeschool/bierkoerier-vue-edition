@@ -1,6 +1,6 @@
 <template>
     <main>
-      <section id="search-engine" class="jumbotron" v-bind:class="{ filled: searchString.length !== 0 }">
+      <section id="search-engine" class="jumbotron" :class="{ filled: searchString.length !== 0 }">
         <div class="container">
           <h1 class="">Producten</h1>
           <div class="input-group">
@@ -16,11 +16,13 @@
       <section id="results">
         <div class="container">
           <div class="product col-md-3 col-sm-6" v-for="product in filteredData">
+
             <div class="product-body thumbnail">
                <div class="product-name caption">{{ product.name }}</div>
                <div class="product-price">&euro;{{ product.price }}</div>
                <button class="btn btn-primary product-button" type="button" @click="addToCart(product)">In winkelwagen</button>
             </div>
+
           </div>
         </div>
       </section>
@@ -33,15 +35,11 @@
   export default {
     data() {
       return {
-        products: [{
-        }],
+        products: [],
         searchString:"",
         searchResults:[]
 
       }
-    },
-    components: {
-      //hyperlink,
     },
     created () {
     	 this.getProducts()
@@ -53,31 +51,49 @@
              searchString = this.searchString;
 
          if(!searchString){
-             return this.products;
+            return this.products;
          }
 
-          searchString = searchString.trim().toLowerCase();
+         searchString = searchString.trim().toLowerCase();
 
-          if (searchString) {
-             results_array = this.products.filter(function(product){
-                 if(product.name.toLowerCase().indexOf(searchString) !== -1){
-                     return product;
-                 }
-             })
+         if (searchString) {
+            results_array = this.products.filter(function(product){
+               if(product.name.toLowerCase().indexOf(searchString) !== -1){
+                  return product;
+               }
+            })
             }
-          // Return an array with the filtered data.
-          return results_array;
+            // Return an array with the filtered data.
+         return results_array;
       },
 
-        },
-    methods: {
-      getProducts() {
-        axios.get('/api/products').then(response => this.products = response.data);
-      },
-      addToCart(product) {
-         console.log(product);
-         this.$root.cart.push(product);
-     }
-    }
+     },
+      methods: {
+         getProducts() {
+           axios.get('/api/products').then(response => this.products = response.data);
+         },
+         addToCart(product) {
+            console.log(product);
+            var   cart = this.$root.cart,
+                  foundProduct = false;
+            //Doorzoek alle producten in winkelwagen
+            for (var i = 0; i < cart.length; i++) {
+               // als product ID gelijk is aan toegevoegde product ID, voeg nieuwe toe.
+               if(cart[i].id == product.id) {
+                  var newProduct = cart[i];
+                  // totaal aantal van dat product +1
+                  newProduct.quantity++;
+                  // werk de winkelwagen bij
+                  this.$root.$set(cart[i], newProduct);
+                  foundProduct = true;
+                  break;
+               }
+            }
+            if(!foundProduct) {
+              product.quantity = 1;
+              this.$root.cart.push(product);
+            }
+         }
+      }
   }
 </script>

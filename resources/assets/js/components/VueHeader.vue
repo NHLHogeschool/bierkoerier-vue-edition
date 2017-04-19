@@ -1,10 +1,12 @@
 <template>
     <header>
        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                  <router-link to="/" id="logo" class="bnavbar-brand">BIERKOERIER</router-link>
-                </div>
+               <div class="navbar-header">
+                  <div class="container">
+                     <router-link to="/" class="navbar-brand">BIERKOERIER</router-link>
+                     <router-link to="/cart" class="navbar-right navbar-text">Cart<span class="badge">{{$root.productCount}}</span></router-link>
+                  </div>
+               </div>
             </div>
         </nav>
     </header>

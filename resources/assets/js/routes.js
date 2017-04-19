@@ -9,6 +9,14 @@ module.exports = {
       	component: require('./pages/Home.vue'),
     },
     {
+      	path: '/cart',
+      	name: 'Cart',
+        meta: {
+          title: "Winkelbierkrat - Bierkoerier"
+        },
+      	component: require('./pages/Cart.vue'),
+    },
+    {
       	path: '/order',
       	name: 'Order',
         meta: {
@@ -16,12 +24,12 @@ module.exports = {
         },
       	component: require('./pages/Order.vue'),
     },
-    { 
+    {
     	path: '*',
     	name: 'Error 404',
       meta: {
         title: "Page not Found - Bierkoerier"
-      }, 
+      },
     	component: require('./pages/404.vue')
     }
   ]

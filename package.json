@@ -33,6 +33,6 @@
   },
   "homepage": "https://github.com/NHLHogeschool/bierkoerier-vue-edition#readme",
   "dependencies": {
-    "vue-router": "^2.3.0"
+    "vue-router": "^2.4.0"
   }
 }
