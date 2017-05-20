@@ -4,7 +4,7 @@
                <div class="navbar-header">
                   <div class="container">
                      <router-link to="/" class="navbar-brand">BIERKOERIER</router-link>
-                     <router-link to="/cart" class="navbar-right navbar-text">Cart<span class="badge">{{$root.productCount}}</span></router-link>
+                     <router-link to="/cart" class="navbar-right navbar-text">Winkelbierkrat<span class="badge">{{$root.cart.itemTotal}}</span></router-link>
                   </div>
                </div>
             </div>

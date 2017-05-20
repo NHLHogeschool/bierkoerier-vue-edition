@@ -15,12 +15,12 @@
       <router-link
          v-else
          tag="button"
-         :disabled="$root.cart.length == 0"
+         :disabled="$root.cart.itemTotal == 0"
          to="order"
          class="btn btn-primary btn-lg"
          >
          Bestellen
-         <span class="badge">{{$root.cart.length}}</span>
+         <span class="badge">{{$root.cart.itemTotal}}</span>
       </router-link>
 
 
@@ -30,11 +30,6 @@
 
 <script>
     export default {
-      data() {
-         return {
-            hans:true
-         }
-      },
         mounted() {
             console.log('Header mounted.')
         }

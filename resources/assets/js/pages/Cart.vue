@@ -1,4 +1,5 @@
 <template>
+   <transition name="fade">
    <main>
       <section id="cart">
          <div class="container">
@@ -8,6 +9,7 @@
          </div>
       </section>
    </main>
+</transition>
 </template>
 
 <script>

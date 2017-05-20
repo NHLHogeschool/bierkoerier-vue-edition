@@ -3,33 +3,23 @@
       <table class="table">
          <thead>
           <tr>
-            <th>Naam</th>
-            <th>Aantak</th>
-            <th>Header</th>
+            <th>Bier</th>
+            <th>Aantal</th>
+            <th>Prijs</th>
           </tr>
          </thead>
          <tbody>
-          <tr>
-            <td>Cell</td>
-            <td>Cell</td>
-            <td>Cell</td>
-          </tr>
-          <tr>
-            <td>Cell</td>
-            <td>Cell</td>
-            <td>Cell</td>
-          </tr>
-          <tr>
-            <td>Cell</td>
-            <td>Cell</td>
-            <td>Cell</td>
+          <tr v-for="product in products">
+            <td>{{product.name}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.price}}</td>
           </tr>
          </tbody>
          <tfoot>
             <tr>
                <td></td>
                <td align="right">Totaal:</td>
-               <td>Cell</td>
+               <td>0</td>
            </tr>
         </tfoot>
       </table>
@@ -37,16 +27,12 @@
 </template>
 
 <script>
+    import cart from '../cart';
     export default {
       data() {
-         products:[]
-      },
-      computed: {
-         // QuantityCounter: function () {
-         //    var cart = $root.cart;
-         //
-         //
-         // }
+         return {
+            products:cart.state.products
+         }
       },
         mounted() {
             console.log('Component mounted.')

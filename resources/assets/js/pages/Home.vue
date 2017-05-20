@@ -31,7 +31,7 @@
 </template>
 
 <script>
-
+   import cart from '../cart.js';
   export default {
     data() {
       return {
@@ -73,25 +73,27 @@
            axios.get('/api/products').then(response => this.products = response.data);
          },
          addToCart(product) {
-            console.log(product);
-            var   cart = this.$root.cart,
-                  foundProduct = false;
+            console.log(this);
+            var   products = cart.state.products;
+            var    foundProduct = false;
             //Doorzoek alle producten in winkelwagen
-            for (var i = 0; i < cart.length; i++) {
+            for (var i = 0; i < products.length; i++) {
                // als product ID gelijk is aan toegevoegde product ID, voeg nieuwe toe.
-               if(cart[i].id == product.id) {
-                  var newProduct = cart[i];
+               if(products[i].id === product.id) {
+                  var newProduct = products[i];
                   // totaal aantal van dat product +1
                   newProduct.quantity++;
+                  cart.state.itemTotal++;
                   // werk de winkelwagen bij
-                  this.$root.$set(cart[i], newProduct);
+                  cart.setProduct([i], newProduct);
                   foundProduct = true;
                   break;
                }
             }
             if(!foundProduct) {
               product.quantity = 1;
-              this.$root.cart.push(product);
+              cart.state.itemTotal++;
+              cart.addProduct(product);
             }
          }
       }

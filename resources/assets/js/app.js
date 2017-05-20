@@ -26,47 +26,37 @@ router.beforeEach((to, from, next) => {
 Vue.component('VueHeader', require('./components/VueHeader.vue'));
 Vue.component('VueFooter', require('./components/VueFooter.vue'));
 
+import cart from './cart';
+
 // Create Vue object in #app
 const app = new Vue({
    el: '#app',
    router,
    data: {
-      cart: fetchLocalStorage("cart"),
+      cart: cart.state,
    },
-   watch: {
-      cart: function(data){
-         saveLocalStorage("cart",data);
-         console.log("save");
-      }
-   },
+   // watch: {
+   //    cart: function(data){
+   //       saveLocalStorage("cart",data);
+   //       console.log("save");
+   //    }
+   // },
    computed: {
-      productCount: function () {
-         var cart = this.cart,
-             counter = 0;
+      productCount: {
+         cache:false,
+         get() {
+            var products = this.cart,
+                counter = 0;
 
-         for (var i = 0; i < cart.length; i++) {
-            counter += cart[i].quantity;
+            for (var i = 0; i < products.length; i++) {
+               counter += products[i].quantity;
+            }
+
+            return counter;
          }
-
-         return counter;
       }
    },
    created() {
       console.log(this.cart);
    }
 });
-
-// Functie ophalen van localstorage
-function fetchLocalStorage(key) {
-   // kijken of localstorage gevuld is met data van de cart.
-   if(localStorage.getItem(key)) {
-      return JSON.parse(localStorage.getItem(key));
-   } else {
-      // is het leeg, stuur lege array terug
-      return [];
-   }
-}
-// Functie voor het opslaan in localstorage
-function saveLocalStorage(key, data){
-  localStorage.setItem(key, JSON.stringify(data));
-}

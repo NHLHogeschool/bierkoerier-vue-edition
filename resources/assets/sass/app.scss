@@ -71,6 +71,12 @@ a#logo {
 
 }
 
+.fade-enter-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
+}
 
 //Mobile only
 @media (max-width: 768px) {
